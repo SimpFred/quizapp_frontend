@@ -1,4 +1,3 @@
-// src/Result.js
 import React from 'react';
 
 function Result({ answers, questions, correctAnswers, incorrectAnswers }) {

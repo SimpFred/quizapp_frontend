@@ -1,4 +1,3 @@
-// src/QuizSetup.js
 import React, { useState } from 'react';
 
 function QuizSetup({ onStartQuiz }) {
