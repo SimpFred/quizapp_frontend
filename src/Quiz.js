@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Question from './Question';
 import Result from './Result';
+import QuizSetup from './QuizSetup';
 
 function Quiz() {
   const [questions, setQuestions] = useState([]);
@@ -8,14 +9,16 @@ function Quiz() {
   const [answers, setAnswers] = useState([]);
   const [isFinished, setIsFinished] = useState(false);
   const [error, setError] = useState(null);
-  const [hasFetched, setHasFetched] = useState(false); // Flagga för att kontrollera om fetch har körts
-  const [correctAnswers, setCorrectAnswers] = useState(0); // Håller koll på rätta svar
-  const [incorrectAnswers, setIncorrectAnswers] = useState(0); // Håller koll på felaktiga svar
+  const [hasFetched, setHasFetched] = useState(false);
+  const [correctAnswers, setCorrectAnswers] = useState(0);
+  const [incorrectAnswers, setIncorrectAnswers] = useState(0);
+  const [quizSetup, setQuizSetup] = useState(null);
 
   useEffect(() => {
-    if (!hasFetched) {
+    if (quizSetup && !hasFetched) {
       console.log('Fetching quiz questions');
-      fetch('http://localhost:8080/api/quiz/questions')
+      fetch(`http://localhost:8080/api/quiz/questions?amount=${quizSetup.numQuestions}&category=${quizSetup.category}&difficulty=${quizSetup.difficulty}`)
+
         .then(response => {
           if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -23,15 +26,14 @@ function Quiz() {
           return response.json();
         })
         .then(data => {
-          setQuestions(data.results || data); // Justera baserat på API-svaret
-          setHasFetched(true); // Sätt flaggan till true efter att fetch har körts
+          setQuestions(data.results || data);
+          setHasFetched(true);
           console.log(data.results || data);
         })
         .catch(error => setError(error.message));
     }
-  }, [hasFetched]); // Lägg till hasFetched som beroende
+  }, [quizSetup, hasFetched]);
 
-  // Funktion som hanterar när användaren väljer ett svar
   const handleAnswer = (answer) => {
     const currentQuestion = questions[currentQuestionIndex];
     if (answer === currentQuestion.correct_answer) {
@@ -46,31 +48,33 @@ function Quiz() {
       setCurrentQuestionIndex(nextIndex);
     } else {
       setIsFinished(true);
-      handleSaveResults(); // Anropa handleSaveResults när quizet är färdigt
+      handleSaveResults();
     }
   };
 
-    // Funktion som beräknar poängen
-    const calculateScore = () => {
-        return correctAnswers;
-      };
-    
-      // Funktion som sparar resultaten
-      const handleSaveResults = () => {
-        fetch('http://localhost:8080/api/quiz/results', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            username: 'testuser',  // Ersätt med faktiskt användarnamn
-            score: calculateScore(),
-          }),
-        })
-          .then(response => response.json())
-          .then(data => console.log('Result saved:', data))
-          .catch(error => console.error('Error saving result:', error));
-      };
+  const handleSaveResults = () => {
+    fetch('http://localhost:8080/api/quiz/results', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: 'testuser',  // Replace with actual username
+        score: correctAnswers,
+      }),
+    })
+      .then(response => response.json())
+      .then(data => console.log('Result saved:', data))
+      .catch(error => console.error('Error saving result:', error));
+  };
+
+  const handleStartQuiz = (setup) => {
+    setQuizSetup(setup);
+  };
+
+  if (!quizSetup) {
+    return <QuizSetup onStartQuiz={handleStartQuiz} />;
+  }
 
   if (error) {
     return <p>Error: {error}</p>;
@@ -97,7 +101,7 @@ function Quiz() {
     <div>
       <Question
         question={currentQuestion}
-        onAnswer={handleAnswer} // Skicka handleAnswer som onAnswer-prop till Question-komponenten
+        onAnswer={handleAnswer}
       />
     </div>
   );
