@@ -1,17 +1,16 @@
-// src/Question.js
 import React, { useState, useEffect } from 'react';
 
 function Question({ question, onAnswer }) {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [shuffledAnswers, setShuffledAnswers] = useState([]);
 
-  // Hanterar när användaren väljer ett svar
+  // Handles when the user selects an answer
   const handleAnswer = (answer) => {
     setSelectedAnswer(answer);
     onAnswer(answer);
   };
 
-  // Funktion för att blanda en array
+  // Function to shuffle an array
   const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -20,7 +19,7 @@ function Question({ question, onAnswer }) {
     return array;
   };
 
-  // Blanda svarsalternativen när komponenten mountas eller frågan ändras
+  // Shuffle the answer options when the component mounts or the question changes
   useEffect(() => {
     if (question) {
       const answers = [...question.incorrect_answers, question.correct_answer];
@@ -28,12 +27,12 @@ function Question({ question, onAnswer }) {
     }
   }, [question]);
 
-  // Om inget fråga är tillgänglig, visa en laddningsmeddelande
+  // If no question is available, display a loading message
   if (!question) {
     return <p>Loading question...</p>;
   }
 
-  // Rendera frågan och svarsalternativ
+  // Render the question and answer options
   return (
     <div>
       <h2 dangerouslySetInnerHTML={{ __html: question.question }}></h2>
