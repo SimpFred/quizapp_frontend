@@ -1,10 +1,34 @@
-import React from 'react';
-import { Container, Box, Button, Typography, CircularProgress, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Container, Box, Button, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Result from './Result';
 import Loading from './Loading';
+import SaveResults from './SaveResults'; // Importera SaveResults-komponenten
 
 function QuizResult({ answers, questions, correctAnswers, incorrectAnswers, isLoading }) {
+  const [isTop10, setIsTop10] = useState(false);
+  const [openSaveDialog, setOpenSaveDialog] = useState(false);
+
+  useEffect(() => {
+    if (!isLoading) {
+      // Kontrollera om användaren är i topp 10
+      fetch('http://localhost:8080/api/quiz/top10')
+        .then(response => response.json())
+        .then(topResults => {
+          const isTop10 = topResults.length < 10 || correctAnswers > topResults[topResults.length - 1].score;
+          setIsTop10(isTop10);
+          if (isTop10) {
+            setOpenSaveDialog(true);
+          }
+        })
+        .catch(error => console.error('Error fetching top 10 results:', error));
+    }
+  }, [isLoading, correctAnswers]);
+
+  const handleCloseSaveDialog = () => {
+    setOpenSaveDialog(false);
+  };
+
   return (
     <Container maxWidth="sm">
       <Box
@@ -24,7 +48,7 @@ function QuizResult({ answers, questions, correctAnswers, incorrectAnswers, isLo
           Quiz Results
         </Typography>
         {isLoading ? (
-         <Loading loadingText='Loading results...'/>
+          <Loading loadingText='Loading results...' />
         ) : (
           <>
             <Typography variant="body1" gutterBottom>
@@ -34,7 +58,7 @@ function QuizResult({ answers, questions, correctAnswers, incorrectAnswers, isLo
               Incorrect Answers: {incorrectAnswers}
             </Typography>
             <Accordion>
-            <AccordionSummary
+              <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel1a-content"
                 id="panel1a-header">
@@ -58,6 +82,11 @@ function QuizResult({ answers, questions, correctAnswers, incorrectAnswers, isLo
             >
               Restart Quiz
             </Button>
+            <SaveResults
+              correctAnswers={correctAnswers}
+              open={openSaveDialog}
+              onClose={handleCloseSaveDialog}
+            /> {/* Visa SaveResults-komponenten som en dialog */}
           </>
         )}
       </Box>
