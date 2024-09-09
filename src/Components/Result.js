@@ -1,30 +1,34 @@
 import React from 'react';
+import { Box, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 function Result({ answers, questions, correctAnswers, incorrectAnswers }) {
-  const score = answers.reduce((score, answer, index) => {
-    if (answer === questions[index].correct_answer) {
-      return score + 1;
-    }
-    return score;
-  }, 0);
-
   return (
-    <div>
-      <h1>Quiz Finished!</h1>
-      <p>Your score: {score} / {questions.length}</p>
-      <p>Correct Answers: {correctAnswers}</p>
-      <p>Incorrect Answers: {incorrectAnswers}</p>
-      <h2>Answers:</h2>
-      <ul>
-        {questions.map((question, index) => (
-          <li key={index}>
-            <p>Question: <span dangerouslySetInnerHTML={{ __html: question.question }}></span></p>
-            <p>Your answer: <span dangerouslySetInnerHTML={{ __html: answers[index] }}></span></p>
-            <p>Correct answer: <span dangerouslySetInnerHTML={{ __html: question.correct_answer }}></span></p>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <Box sx={{ width: '100%' }}>
+      {questions.map((question, index) => (
+        <Accordion key={index}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls={`panel${index}-content`}
+            id={`panel${index}-header`}
+          >
+            <Typography
+              variant="body1"
+              dangerouslySetInnerHTML={{ __html: question.question }}
+              sx={{ marginRight: 2 }} // Lägg till marginal till höger
+            />
+          </AccordionSummary>
+          <AccordionDetails>
+          <Typography variant="body2" color="textSecondary">
+              Correct answer: {question.correct_answer}
+            </Typography>
+            <Typography variant="body2" color="textSecondary">
+              Your answer: {answers[index]}
+            </Typography>
+          </AccordionDetails>
+        </Accordion>
+      ))}
+    </Box>
   );
 }
 
