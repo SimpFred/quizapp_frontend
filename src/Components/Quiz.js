@@ -51,47 +51,7 @@ function Quiz() {
       setCurrentQuestionIndex(nextIndex);
     } else {
       setIsFinished(true);
-      handleSaveResults();
     }
-  };
-
-  const handleSaveResults = () => {
-    // Först hämta de 10 bästa resultaten
-    fetch('http://localhost:8080/api/quiz/top10')
-      .then(response => response.json())
-      .then(topResults => {
-        // Kontrollera om användarens resultat är bland de 10 bästa
-        const isTop10 = topResults.length < 10 || correctAnswers > topResults[topResults.length - 1].score;
-
-        console.log('Top 10 results:', topResults);
-        if (isTop10) {
-          // Fråga användaren om de vill spara sitt resultat
-          const saveResult = window.confirm('You are in the top 10! Do you want to save your result?');
-
-          if (saveResult) {
-            const username = window.prompt('Please enter your name:');
-            if (username) {
-              // Spara resultatet om användaren bekräftar
-              fetch('http://localhost:8080/api/quiz/results', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                  username: username,
-                  score: correctAnswers,
-                }),
-              })
-                .then(response => response.json())
-                .then(data => console.log('Result saved:', data))
-                .catch(error => console.error('Error saving result:', error));
-            }
-          }
-        } else {
-          console.log('Not in the top 10, result not saved.');
-        }
-      })
-      .catch(error => console.error('Error fetching top 10 results:', error));
   };
 
   const handleStartQuiz = (setup) => {
@@ -126,6 +86,7 @@ function Quiz() {
           correctAnswers={correctAnswers}
           incorrectAnswers={incorrectAnswers}
         />
+
       </>
     );
   }
