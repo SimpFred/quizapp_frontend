@@ -3,19 +3,21 @@ import { Container, Box, Button, Typography, Accordion, AccordionSummary, Accord
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Result from './Result';
 import Loading from './Loading';
-import SaveResults from './SaveResults'; // Importera SaveResults-komponenten
+import SaveResults from './SaveResults';
+import Scoreboard from './Scoreboard';
 
 function QuizResult({ answers, questions, correctAnswers, incorrectAnswers, isLoading }) {
   const [isTop10, setIsTop10] = useState(false);
   const [openSaveDialog, setOpenSaveDialog] = useState(false);
+  const [topResults, setTopResults] = useState([]);
 
   useEffect(() => {
     if (!isLoading) {
-      // Kontrollera om användaren är i topp 10
       fetch('http://localhost:8080/api/quiz/top10')
         .then(response => response.json())
-        .then(topResults => {
-          const isTop10 = topResults.length < 10 || correctAnswers > topResults[topResults.length - 1].score;
+        .then(data => {
+          setTopResults(data);
+          const isTop10 = data.length < 10 || correctAnswers > data[data.length - 1].score;
           setIsTop10(isTop10);
           if (isTop10) {
             setOpenSaveDialog(true);
@@ -90,6 +92,7 @@ function QuizResult({ answers, questions, correctAnswers, incorrectAnswers, isLo
           </>
         )}
       </Box>
+      <Scoreboard topResults={topResults} /> {/* Skicka topp 10-resultaten som en prop */}
     </Container>
   );
 }
