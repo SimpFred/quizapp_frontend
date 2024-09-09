@@ -50,11 +50,10 @@ function QuizResult({ answers, questions, correctAnswers, incorrectAnswers, isLo
               Incorrect Answers: {incorrectAnswers}
             </Typography>
             <Accordion>
-              <AccordionSummary
+            <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel1a-content"
-                id="panel1a-header"
-              >
+                id="panel1a-header">
                 <Typography variant="h6">Facit</Typography>
               </AccordionSummary>
               <AccordionDetails>
