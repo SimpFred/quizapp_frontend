@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Box, Button, Typography, CircularProgress, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Result from './Result';
+import Loading from './Loading';
 
 function QuizResult({ answers, questions, correctAnswers, incorrectAnswers, isLoading }) {
   return (
@@ -23,24 +24,7 @@ function QuizResult({ answers, questions, correctAnswers, incorrectAnswers, isLo
           Quiz Results
         </Typography>
         {isLoading ? (
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              height: '100vh',
-            }}
-          >
-            <CircularProgress
-              sx={{
-                animationDuration: '2s', // Justerar hastigheten på snurrningen
-              }}
-            />
-            <Typography variant="h6" sx={{ mt: 2 }}>
-              Loading results...
-            </Typography>
-          </Box>
+         <Loading loadingText='Loading results...'/>
         ) : (
           <>
             <Typography variant="body1" gutterBottom>
