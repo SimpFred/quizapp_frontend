@@ -7,28 +7,44 @@ import SaveResults from './SaveResults';
 import Scoreboard from './Scoreboard';
 
 function QuizResult({ answers, questions, correctAnswers, incorrectAnswers, isLoading }) {
-  const [isTop10, setIsTop10] = useState(false);
   const [openSaveDialog, setOpenSaveDialog] = useState(false);
   const [topResults, setTopResults] = useState([]);
+  const [updateScoreboard, setUpdateScoreboard] = useState(false);
+  const [hasSaveDialogBeenOpened, setHasSaveDialogBeenOpened] = useState(false);
+
+  const fetchTopResults = () => {
+    fetch('http://localhost:8080/api/quiz/top10')
+      .then(response => response.json())
+      .then(data => {
+        setTopResults(data);
+        const isTop10 = data.length < 10 || correctAnswers > data[data.length - 1].score;
+        if (isTop10 && !hasSaveDialogBeenOpened) {
+          setOpenSaveDialog(true);
+        }
+      })
+      .catch(error => console.error('Error fetching top 10 results:', error));
+  };
 
   useEffect(() => {
     if (!isLoading) {
-      fetch('http://localhost:8080/api/quiz/top10')
-        .then(response => response.json())
-        .then(data => {
-          setTopResults(data);
-          const isTop10 = data.length < 10 || correctAnswers > data[data.length - 1].score;
-          setIsTop10(isTop10);
-          if (isTop10) {
-            setOpenSaveDialog(true);
-          }
-        })
-        .catch(error => console.error('Error fetching top 10 results:', error));
+      fetchTopResults();
     }
   }, [isLoading, correctAnswers]);
 
+  useEffect(() => {
+    if (updateScoreboard) {
+      fetchTopResults();
+      setUpdateScoreboard(false);
+    }
+  }, [updateScoreboard]);
+
   const handleCloseSaveDialog = () => {
     setOpenSaveDialog(false);
+  };
+
+  const handleResultSaved = () => {
+    setHasSaveDialogBeenOpened(true);
+    setUpdateScoreboard(true);
   };
 
   return (
@@ -88,11 +104,12 @@ function QuizResult({ answers, questions, correctAnswers, incorrectAnswers, isLo
               correctAnswers={correctAnswers}
               open={openSaveDialog}
               onClose={handleCloseSaveDialog}
-            /> {/* Visa SaveResults-komponenten som en dialog */}
+              onResultSaved={handleResultSaved} // Lägg till callback-funktion
+            />
           </>
         )}
       </Box>
-      <Scoreboard topResults={topResults} /> {/* Skicka topp 10-resultaten som en prop */}
+      <Scoreboard topResults={topResults} />
     </Container>
   );
 }
