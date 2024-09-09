@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Typography, CircularProgress, Box } from '@mui/material';
 
-function Loading() {
+function Loading({ loadingText = "Loading questions..." }) {
   return (
     <Container maxWidth="sm">
       <Box
@@ -19,7 +19,7 @@ function Loading() {
           }}
         />
         <Typography variant="h6" sx={{ mt: 2 }}>
-          Loading questions...
+          {loadingText}
         </Typography>
       </Box>
     </Container>
