@@ -33,7 +33,7 @@ function Quiz() {
           setHasFetched(true);
           console.log(data.results || data);
         })
-        .catch(error => setError(error.message));
+        .catch(error => setError("Failed to fetch quiz questions, please try again later."));
     }
   }, [quizSetup, hasFetched]);
 
