@@ -20,7 +20,6 @@ function Quiz() {
 
   useEffect(() => {
     if (quizSetup && !hasFetched) {
-      console.log('Fetching quiz questions');
       fetch(`http://localhost:8080/api/quiz/questions?amount=${quizSetup.numQuestions}&category=${quizSetup.category}&difficulty=${quizSetup.difficulty}`)
         .then(response => {
           if (!response.ok) {
@@ -31,7 +30,6 @@ function Quiz() {
         .then(data => {
           setQuestions(data.results || data);
           setHasFetched(true);
-          console.log(data.results || data);
         })
         .catch(error => setError("Failed to fetch quiz questions, please try again later."));
     }
@@ -85,6 +83,9 @@ function Quiz() {
           questions={questions}
           correctAnswers={correctAnswers}
           incorrectAnswers={incorrectAnswers}
+          category={quizSetup.category}
+          difficulty={quizSetup.difficulty}
+          numQuestions={quizSetup.numQuestions}
         />
 
       </>

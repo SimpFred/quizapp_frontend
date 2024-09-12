@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Typography } from '@mui/material';
 import validator from 'validator';
 
-const SaveResults = ({ correctAnswers, open, onClose, onResultSaved }) => {
+const SaveResults = ({ correctAnswers, open, onClose, onResultSaved, category, numQuestions }) => {
   const [username, setUsername] = useState('');
   const [error, setError] = useState('');
 
@@ -43,7 +43,6 @@ const SaveResults = ({ correctAnswers, open, onClose, onResultSaved }) => {
     }
 
     if (username) {
-      console.log('Saving result for username:', username); // Logga användarnamnet
       // Spara resultatet om användaren bekräftar
       fetch('http://localhost:8080/api/quiz/results', {
         method: 'POST',
@@ -53,16 +52,16 @@ const SaveResults = ({ correctAnswers, open, onClose, onResultSaved }) => {
         body: JSON.stringify({
           username: username,
           score: correctAnswers,
+          category: category,
+          numberOfQuestions: numQuestions,
         }),
       })
         .then(response => response.json())
         .then(data => {
-          console.log('Result saved:', data);
           onResultSaved(); // Anropa callback-funktionen
           onClose(); // Stäng dialogen
         })
         .catch(error => {
-          console.error('Error saving result:', error);
           onClose(); // Försök stänga dialogen även vid fel
         });
     }
@@ -70,7 +69,7 @@ const SaveResults = ({ correctAnswers, open, onClose, onResultSaved }) => {
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle sx={{ textAlign: "center" }}>You are not in the top 10!!!</DialogTitle>
+      <DialogTitle sx={{ textAlign: "center" }}>You are in the top 10!!!</DialogTitle>
       <DialogContent>
         <Typography variant="subtitle1" gutterBottom>
           Please enter your name if you want to save your result.

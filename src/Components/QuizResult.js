@@ -6,23 +6,26 @@ import Loading from './Loading';
 import SaveResults from './SaveResults';
 import Scoreboard from './Scoreboard';
 
-function QuizResult({ answers, questions, correctAnswers, incorrectAnswers, isLoading }) {
+function QuizResult({ answers, questions, correctAnswers, incorrectAnswers, isLoading, category, difficulty, numQuestions}) {
   const [openSaveDialog, setOpenSaveDialog] = useState(false);
   const [topResults, setTopResults] = useState([]);
   const [updateScoreboard, setUpdateScoreboard] = useState(false);
   const [hasSaveDialogBeenOpened, setHasSaveDialogBeenOpened] = useState(false);
 
   const fetchTopResults = () => {
-    fetch('http://localhost:8080/api/quiz/top10')
+
+    fetch(`http://localhost:8080/api/quiz/top10?category=${category}&numberOfQuestions=${numQuestions}`)
       .then(response => response.json())
       .then(data => {
+        if (!data) {
+          return;
+        }
         setTopResults(data);
         const isTop10 = data.length < 10 || correctAnswers > data[data.length - 1].score;
         if (isTop10 && !hasSaveDialogBeenOpened) {
           setOpenSaveDialog(true);
         }
       })
-      .catch(error => console.error('Error fetching top 10 results:', error));
   };
 
   useEffect(() => {
@@ -104,7 +107,9 @@ function QuizResult({ answers, questions, correctAnswers, incorrectAnswers, isLo
               correctAnswers={correctAnswers}
               open={openSaveDialog}
               onClose={handleCloseSaveDialog}
-              onResultSaved={handleResultSaved} // Lägg till callback-funktion
+              onResultSaved={handleResultSaved}
+              category={category}
+              numQuestions={numQuestions}
             />
           </>
         )}
