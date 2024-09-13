@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Typography } from '@mui/material';
 import validator from 'validator';
 
-const SaveResults = ({ correctAnswers, open, onClose, onResultSaved, category, numQuestions }) => {
+const SaveResults = ({ correctAnswers, open, onClose, onResultSaved, category, numQuestions, difficulty }) => {
   const [username, setUsername] = useState('');
   const [error, setError] = useState('');
 
@@ -54,6 +54,7 @@ const SaveResults = ({ correctAnswers, open, onClose, onResultSaved, category, n
           score: correctAnswers,
           category: category,
           numberOfQuestions: numQuestions,
+          difficulty: difficulty,
         }),
       })
         .then(response => response.json())

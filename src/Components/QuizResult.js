@@ -14,7 +14,7 @@ function QuizResult({ answers, questions, correctAnswers, incorrectAnswers, isLo
 
   const fetchTopResults = () => {
 
-    fetch(`http://localhost:8080/api/quiz/top10?category=${category}&numberOfQuestions=${numQuestions}`)
+    fetch(`http://localhost:8080/api/quiz/top10?category=${category}&numberOfQuestions=${numQuestions}&difficulty=${difficulty}`)
       .then(response => response.json())
       .then(data => {
         if (!data) {
@@ -110,6 +110,7 @@ function QuizResult({ answers, questions, correctAnswers, incorrectAnswers, isLo
               onResultSaved={handleResultSaved}
               category={category}
               numQuestions={numQuestions}
+              difficulty={difficulty}
             />
           </>
         )}
