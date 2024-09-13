@@ -2,9 +2,18 @@ import React, { useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Typography } from '@mui/material';
 import validator from 'validator';
 
+const categoryMap = {
+  11: 'Music',
+  12: 'Film',
+  21: 'Sport',
+  15: 'Video Games'
+};
+
+
 const SaveResults = ({ correctAnswers, open, onClose, onResultSaved, category, numQuestions, difficulty }) => {
   const [username, setUsername] = useState('');
   const [error, setError] = useState('');
+
 
   const validateUsername = (name) => {
     // Sanera strängen för att förhindra SQL-injektioner
@@ -70,7 +79,11 @@ const SaveResults = ({ correctAnswers, open, onClose, onResultSaved, category, n
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle sx={{ textAlign: "center" }}>You are in the top 10!!!</DialogTitle>
+       <DialogTitle sx={{ textAlign: "center" }}>
+        You are in the top 10!!!
+        <Typography variant="body2" gutterBottom> In the category {categoryMap[category]} with {numQuestions} questions at {difficulty} difficulty!
+        </Typography>
+      </DialogTitle>
       <DialogContent>
         <Typography variant="subtitle1" gutterBottom>
           Please enter your name if you want to save your result.
