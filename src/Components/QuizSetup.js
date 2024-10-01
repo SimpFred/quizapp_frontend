@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Container,
   Typography,
@@ -9,14 +9,16 @@ import {
   Button,
   Box,
 } from "@mui/material";
+import { QuizAppContext } from "../context";
 
-function QuizSetup({ onStartQuiz }) {
+function QuizSetup() {
+  const { setQuizSetup } = useContext(QuizAppContext);
   const [numQuestions, setNumQuestions] = useState(10);
   const [category, setCategory] = useState(11);
   const [difficulty, setDifficulty] = useState("easy");
 
   const handleStartQuiz = () => {
-    onStartQuiz({ numQuestions, category, difficulty });
+    setQuizSetup({ numQuestions, category, difficulty });
   };
 
   return (
