@@ -1,10 +1,19 @@
-import React, { useState } from 'react';
-import { Container, Typography, FormControl, InputLabel, Select, MenuItem, Button, Box } from '@mui/material';
+import React, { useState } from "react";
+import {
+  Container,
+  Typography,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Button,
+  Box,
+} from "@mui/material";
 
 function QuizSetup({ onStartQuiz }) {
   const [numQuestions, setNumQuestions] = useState(10);
   const [category, setCategory] = useState(11);
-  const [difficulty, setDifficulty] = useState('easy');
+  const [difficulty, setDifficulty] = useState("easy");
 
   const handleStartQuiz = () => {
     onStartQuiz({ numQuestions, category, difficulty });
@@ -12,7 +21,16 @@ function QuizSetup({ onStartQuiz }) {
 
   return (
     <Container maxWidth="sm">
-      <Box sx={{ mt: 4, mb: 4, p: 3, boxShadow: 3, borderRadius: 2, bgcolor: 'background.paper' }}>
+      <Box
+        sx={{
+          mt: 4,
+          mb: 4,
+          p: 3,
+          boxShadow: 3,
+          borderRadius: 2,
+          bgcolor: "background.paper",
+        }}
+      >
         <Typography variant="h4" component="h1" gutterBottom>
           Setup Your Quiz
         </Typography>

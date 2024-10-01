@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { Container, Box } from '@mui/material';
-import Question from './Question';
-import QuizSetup from './QuizSetup';
-import Header from './Header';
-import Loading from './Loading';
-import Error from './Error';
-import QuizResult from './QuizResult';
+import React, { useEffect, useState } from "react";
+import { Container, Box } from "@mui/material";
+import Question from "../components/Question";
+import QuizSetup from "../components/QuizSetup";
+import Header from "../components/Header";
+import Loading from "../components/helperComponents/Loading";
+import Error from "../components/helperComponents/Error";
+import QuizResult from "../components/resultComponents/QuizResult";
 
 function Quiz() {
   const [questions, setQuestions] = useState([]);
@@ -20,18 +20,22 @@ function Quiz() {
 
   useEffect(() => {
     if (quizSetup && !hasFetched) {
-      fetch(`http://localhost:8080/api/quiz/questions?amount=${quizSetup.numQuestions}&category=${quizSetup.category}&difficulty=${quizSetup.difficulty}`)
-        .then(response => {
+      fetch(
+        `http://localhost:8080/api/quiz/questions?amount=${quizSetup.numQuestions}&category=${quizSetup.category}&difficulty=${quizSetup.difficulty}`
+      )
+        .then((response) => {
           if (!response.ok) {
-            throw new Error('Network response was not ok');
+            throw new Error("Network response was not ok");
           }
           return response.json();
         })
-        .then(data => {
+        .then((data) => {
           setQuestions(data.results || data);
           setHasFetched(true);
         })
-        .catch(error => setError("Failed to fetch quiz questions, please try again later."));
+        .catch((error) =>
+          setError("Failed to fetch quiz questions, please try again later.")
+        );
     }
   }, [quizSetup, hasFetched]);
 
@@ -87,7 +91,6 @@ function Quiz() {
           difficulty={quizSetup.difficulty}
           numQuestions={quizSetup.numQuestions}
         />
-
       </>
     );
   }
@@ -107,11 +110,17 @@ function Quiz() {
     <>
       <Header />
       <Container maxWidth="lg">
-        <Box sx={{ mt: 6, mb: 6, p: 3, boxShadow: 3, borderRadius: 2, bgcolor: 'background.paper' }}>
-          <Question
-            question={currentQuestion}
-            onAnswer={handleAnswer}
-          />
+        <Box
+          sx={{
+            mt: 6,
+            mb: 6,
+            p: 3,
+            boxShadow: 3,
+            borderRadius: 2,
+            bgcolor: "background.paper",
+          }}
+        >
+          <Question question={currentQuestion} onAnswer={handleAnswer} />
         </Box>
       </Container>
     </>
