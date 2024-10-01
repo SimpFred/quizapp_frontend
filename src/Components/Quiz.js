@@ -6,6 +6,7 @@ import Header from "../components/Header";
 import Loading from "../components/helperComponents/Loading";
 import Error from "../components/helperComponents/Error";
 import QuizResult from "../components/resultComponents/QuizResult";
+import { QuizAppContext } from "../context";
 
 function Quiz() {
   const [questions, setQuestions] = useState([]);
@@ -17,6 +18,26 @@ function Quiz() {
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [incorrectAnswers, setIncorrectAnswers] = useState(0);
   const [quizSetup, setQuizSetup] = useState(null);
+
+  const contextValues = {
+    questions,
+    currentQuestionIndex,
+    setCurrentQuestionIndex,
+    answers,
+    setAnswers,
+    isFinished,
+    setIsFinished,
+    error,
+    setError,
+    hasFetched,
+    setHasFetched,
+    correctAnswers,
+    setCorrectAnswers,
+    incorrectAnswers,
+    setIncorrectAnswers,
+    quizSetup,
+    setQuizSetup,
+  };
 
   useEffect(() => {
     if (quizSetup && !hasFetched) {
@@ -64,7 +85,9 @@ function Quiz() {
     return (
       <>
         <Header />
-        <QuizSetup onStartQuiz={handleStartQuiz} />
+        <QuizAppContext.Provider value={contextValues}>
+          <QuizSetup onStartQuiz={handleStartQuiz} />
+        </QuizAppContext.Provider>
       </>
     );
   }
