@@ -14,7 +14,7 @@ import { QuizAppContext } from "../context";
 function QuizSetup() {
   const { setQuizSetup } = useContext(QuizAppContext);
   const [numQuestions, setNumQuestions] = useState(10);
-  const [category, setCategory] = useState(11);
+  const [category, setCategory] = useState(12);
   const [difficulty, setDifficulty] = useState("easy");
 
   const handleStartQuiz = () => {
@@ -57,8 +57,8 @@ function QuizSetup() {
             onChange={(e) => setCategory(e.target.value)}
             label="Category"
           >
-            <MenuItem value={11}>Music</MenuItem>
-            <MenuItem value={12}>Film</MenuItem>
+            <MenuItem value={12}>Music</MenuItem>
+            <MenuItem value={11}>Film</MenuItem>
             <MenuItem value={21}>Sport</MenuItem>
             <MenuItem value={15}>Video Games</MenuItem>
           </Select>
