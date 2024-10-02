@@ -1,10 +1,14 @@
-import React from 'react';
-import { Container, Typography } from '@mui/material';
+import React, { useContext } from "react";
+import { Container, Typography } from "@mui/material";
+import { QuizAppContext } from "../../context";
 
-function Error({ message }) {
+function Error() {
+  const { message } = useContext(QuizAppContext);
   return (
     <Container maxWidth="sm">
-      <Typography variant="h6" color="error">Error: {message}</Typography>
+      <Typography variant="h6" color="error">
+        Error: {message}
+      </Typography>
     </Container>
   );
 }
