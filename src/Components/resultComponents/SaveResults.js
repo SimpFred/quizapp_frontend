@@ -1,47 +1,71 @@
-import React, { useState } from 'react';
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Typography } from '@mui/material';
-import validator from 'validator';
+import React, { useContext, useState } from "react";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  TextField,
+  Typography,
+} from "@mui/material";
+import validator from "validator";
+import { QuizAppContext } from "../../context";
 
 const categoryMap = {
-  11: 'Music',
-  12: 'Film',
-  21: 'Sport',
-  15: 'Video Games'
+  11: "Film",
+  12: "Music",
+  21: "Sport",
+  15: "Video Games",
 };
 
-
-const SaveResults = ({ correctAnswers, open, onClose, onResultSaved, category, numQuestions, difficulty }) => {
-  const [username, setUsername] = useState('');
-  const [error, setError] = useState('');
-
+const SaveResults = ({ correctAnswers, open, onClose, onResultSaved }) => {
+  const { quizSetup } = useContext(QuizAppContext);
+  const [username, setUsername] = useState("");
+  const [error, setError] = useState("");
 
   const validateUsername = (name) => {
     // Sanera strängen för att förhindra SQL-injektioner
     const sanitized = validator.escape(name);
-  
+
     // Lista över förbjudna SQL-nyckelord
-    const forbiddenKeywords = ['SELECT', 'INSERT', 'UPDATE', 'DELETE', 'DROP', 'ALTER', 'CREATE', 'TRUNCATE', 'EXEC', 'UNION', 'FETCH', 'DECLARE', 'SET', 'FROM', 'JOIN'];
-  
+    const forbiddenKeywords = [
+      "SELECT",
+      "INSERT",
+      "UPDATE",
+      "DELETE",
+      "DROP",
+      "ALTER",
+      "CREATE",
+      "TRUNCATE",
+      "EXEC",
+      "UNION",
+      "FETCH",
+      "DECLARE",
+      "SET",
+      "FROM",
+      "JOIN",
+    ];
+
     // Kontrollera om strängen innehåller förbjudna SQL-nyckelord
-    const containsForbiddenKeyword = forbiddenKeywords.some(keyword => 
-      new RegExp(`\\b${keyword}\\b`, 'i').test(sanitized)
+    const containsForbiddenKeyword = forbiddenKeywords.some((keyword) =>
+      new RegExp(`\\b${keyword}\\b`, "i").test(sanitized)
     );
     if (containsForbiddenKeyword) {
-      return 'Name contains invalid characters.';
+      return "Name contains invalid characters.";
     }
-  
+
     // Kontrollera om strängen innehåller mer än två ord
     const words = sanitized.trim().split(/\s+/);
     if (words.length > 2) {
-      return 'Name should not contain more than two words.';
+      return "Name should not contain more than two words.";
     }
-  
+
     // Kontrollera att strängen endast innehåller alfanumeriska tecken och mellanslag
-    if (!validator.isAlphanumeric(sanitized.replace(/\s/g, ''))) {
-      return 'Name contains invalid characters.';
+    if (!validator.isAlphanumeric(sanitized.replace(/\s/g, ""))) {
+      return "Name contains invalid characters.";
     }
-  
-    return '';
+
+    return "";
   };
 
   const handleSave = () => {
@@ -53,25 +77,25 @@ const SaveResults = ({ correctAnswers, open, onClose, onResultSaved, category, n
 
     if (username) {
       // Spara resultatet om användaren bekräftar
-      fetch('http://localhost:8080/api/quiz/results', {
-        method: 'POST',
+      fetch("http://localhost:8080/api/quiz/results", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           username: username,
           score: correctAnswers,
-          category: category,
-          numberOfQuestions: numQuestions,
-          difficulty: difficulty,
+          category: quizSetup.category,
+          numberOfQuestions: quizSetup.numQuestions,
+          difficulty: quizSetup.difficulty,
         }),
       })
-        .then(response => response.json())
-        .then(data => {
+        .then((response) => response.json())
+        .then((data) => {
           onResultSaved(); // Anropa callback-funktionen
           onClose(); // Stäng dialogen
         })
-        .catch(error => {
+        .catch((error) => {
           onClose(); // Försök stänga dialogen även vid fel
         });
     }
@@ -79,9 +103,13 @@ const SaveResults = ({ correctAnswers, open, onClose, onResultSaved, category, n
 
   return (
     <Dialog open={open} onClose={onClose}>
-       <DialogTitle sx={{ textAlign: "center" }}>
+      <DialogTitle sx={{ textAlign: "center" }}>
         You are in the top 10!!!
-        <Typography variant="body2" gutterBottom> In the category {categoryMap[category]} with {numQuestions} questions at {difficulty} difficulty!
+        <Typography variant="body2" gutterBottom>
+          {" "}
+          In the category {categoryMap[quizSetup.category]} with{" "}
+          {quizSetup.numQuestions} questions at {quizSetup.difficulty}{" "}
+          difficulty!
         </Typography>
       </DialogTitle>
       <DialogContent>
@@ -97,7 +125,7 @@ const SaveResults = ({ correctAnswers, open, onClose, onResultSaved, category, n
           value={username}
           onChange={(e) => {
             setUsername(e.target.value);
-            setError(''); // Rensa felmeddelandet när användaren skriver
+            setError(""); // Rensa felmeddelandet när användaren skriver
           }}
           error={!!error}
           helperText={error}

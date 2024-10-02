@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Container,
   Box,
@@ -13,17 +13,17 @@ import Result from "./Result";
 import Loading from "../helperComponents/Loading";
 import SaveResults from "./SaveResults";
 import Scoreboard from "../Scoreboard";
+import { QuizAppContext } from "../../context";
 
-function QuizResult({
-  answers,
-  questions,
-  correctAnswers,
-  incorrectAnswers,
-  isLoading,
-  category,
-  difficulty,
-  numQuestions,
-}) {
+function QuizResult() {
+  const {
+    answers,
+    questions,
+    correctAnswers,
+    incorrectAnswers,
+    isLoading,
+    quizSetup,
+  } = useContext(QuizAppContext);
   const [openSaveDialog, setOpenSaveDialog] = useState(false);
   const [topResults, setTopResults] = useState([]);
   const [updateScoreboard, setUpdateScoreboard] = useState(false);
@@ -31,7 +31,7 @@ function QuizResult({
 
   const fetchTopResults = () => {
     fetch(
-      `http://localhost:8080/api/quiz/top10?category=${category}&numberOfQuestions=${numQuestions}&difficulty=${difficulty}`
+      `http://localhost:8080/api/quiz/top10?category=${quizSetup.category}&numberOfQuestions=${quizSetup.numQuestions}&difficulty=${quizSetup.difficulty}`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -128,9 +128,6 @@ function QuizResult({
               open={openSaveDialog}
               onClose={handleCloseSaveDialog}
               onResultSaved={handleResultSaved}
-              category={category}
-              numQuestions={numQuestions}
-              difficulty={difficulty}
             />
           </>
         )}
