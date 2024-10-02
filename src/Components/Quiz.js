@@ -86,7 +86,7 @@ function Quiz() {
       <>
         <Header />
         <QuizAppContext.Provider value={contextValues}>
-          <QuizSetup onStartQuiz={handleStartQuiz} />
+          <QuizSetup />
         </QuizAppContext.Provider>
       </>
     );
@@ -96,7 +96,9 @@ function Quiz() {
     return (
       <>
         <Header />
-        <Error message={error} />
+        <QuizAppContext.Provider value={contextValues}>
+          <Error />
+        </QuizAppContext.Provider>
       </>
     );
   }
@@ -105,15 +107,9 @@ function Quiz() {
     return (
       <>
         <Header />
-        <QuizResult
-          answers={answers}
-          questions={questions}
-          correctAnswers={correctAnswers}
-          incorrectAnswers={incorrectAnswers}
-          category={quizSetup.category}
-          difficulty={quizSetup.difficulty}
-          numQuestions={quizSetup.numQuestions}
-        />
+        <QuizAppContext.Provider value={contextValues}>
+          <QuizResult />
+        </QuizAppContext.Provider>
       </>
     );
   }
