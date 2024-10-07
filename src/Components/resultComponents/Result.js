@@ -10,6 +10,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { QuizAppContext } from "../../context";
+import parse from "html-react-parser";
 
 function Result() {
   const { answers, questions } = useContext(QuizAppContext);
@@ -30,18 +31,16 @@ function Result() {
                 <CancelIcon sx={{ color: "error.main" }} />
               )}
             </Box>
-            <Typography
-              variant="body1"
-              dangerouslySetInnerHTML={{ __html: question.question }}
-              sx={{ marginRight: 2 }}
-            />
+            <Typography variant="body1" sx={{ marginRight: 2 }}>
+              {parse(question.question)}
+            </Typography>
           </AccordionSummary>
           <AccordionDetails>
             <Typography variant="body2" color="textSecondary">
-              Correct answer: {question.correct_answer}
+              Correct answer: {parse(question.correct_answer)}
             </Typography>
             <Typography variant="body2" color="textSecondary">
-              Your answer: {answers[index]}
+              Your answer: {parse(answers[index])}
             </Typography>
           </AccordionDetails>
         </Accordion>

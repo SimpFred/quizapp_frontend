@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Grid, Typography, Button } from "@mui/material";
 import { QuizAppContext } from "../context";
+import parse from "html-react-parser";
 
 function Question() {
   const { currentQuestion, onAnswer } = useContext(QuizAppContext);
@@ -41,13 +42,9 @@ function Question() {
   // Render the question and answer options
   return (
     <div>
-      <Typography
-        p={2}
-        textAlign="center"
-        variant="h5"
-        gutterBottom
-        dangerouslySetInnerHTML={{ __html: currentQuestion.question }}
-      ></Typography>
+      <Typography p={2} textAlign="center" variant="h5" gutterBottom>
+        {parse(currentQuestion.question)}
+      </Typography>
       <Grid container spacing={3}>
         {shuffledAnswers.map((answer, index) => (
           <Grid item xs={6} key={index}>
@@ -60,7 +57,7 @@ function Question() {
                 backgroundColor: selectedAnswer === answer ? "lightblue" : "",
               }}
             >
-              <Typography dangerouslySetInnerHTML={{ __html: answer }} />
+              <Typography>{parse(answer)}</Typography>
             </Button>
           </Grid>
         ))}
