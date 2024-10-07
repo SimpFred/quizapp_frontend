@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Container, Box } from "@mui/material";
 import Question from "../components/Question";
 import QuizSetup from "../components/QuizSetup";
@@ -9,35 +9,16 @@ import QuizResult from "../components/resultComponents/QuizResult";
 import { QuizAppContext } from "../context";
 
 function Quiz() {
-  const [questions, setQuestions] = useState([]);
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [answers, setAnswers] = useState([]);
-  const [isFinished, setIsFinished] = useState(false);
-  const [error, setError] = useState(null);
-  const [hasFetched, setHasFetched] = useState(false);
-  const [correctAnswers, setCorrectAnswers] = useState(0);
-  const [incorrectAnswers, setIncorrectAnswers] = useState(0);
-  const [quizSetup, setQuizSetup] = useState(null);
-
-  const contextValues = {
+  const {
     questions,
-    currentQuestionIndex,
-    setCurrentQuestionIndex,
-    answers,
-    setAnswers,
-    isFinished,
-    setIsFinished,
-    error,
-    setError,
+    setQuestions,
     hasFetched,
     setHasFetched,
-    correctAnswers,
-    setCorrectAnswers,
-    incorrectAnswers,
-    setIncorrectAnswers,
+    error,
+    setError,
+    isFinished,
     quizSetup,
-    setQuizSetup,
-  };
+  } = useContext(QuizAppContext);
 
   useEffect(() => {
     if (quizSetup && !hasFetched) {
@@ -60,34 +41,11 @@ function Quiz() {
     }
   }, [quizSetup, hasFetched]);
 
-  const handleAnswer = (answer) => {
-    const currentQuestion = questions[currentQuestionIndex];
-    if (answer === currentQuestion.correct_answer) {
-      setCorrectAnswers(correctAnswers + 1);
-    } else {
-      setIncorrectAnswers(incorrectAnswers + 1);
-    }
-
-    setAnswers([...answers, answer]);
-    const nextIndex = currentQuestionIndex + 1;
-    if (nextIndex < questions.length) {
-      setCurrentQuestionIndex(nextIndex);
-    } else {
-      setIsFinished(true);
-    }
-  };
-
-  const handleStartQuiz = (setup) => {
-    setQuizSetup(setup);
-  };
-
   if (!quizSetup) {
     return (
       <>
         <Header />
-        <QuizAppContext.Provider value={contextValues}>
-          <QuizSetup />
-        </QuizAppContext.Provider>
+        <QuizSetup />
       </>
     );
   }
@@ -96,9 +54,7 @@ function Quiz() {
     return (
       <>
         <Header />
-        <QuizAppContext.Provider value={contextValues}>
-          <Error />
-        </QuizAppContext.Provider>
+        <Error />
       </>
     );
   }
@@ -107,9 +63,7 @@ function Quiz() {
     return (
       <>
         <Header />
-        <QuizAppContext.Provider value={contextValues}>
-          <QuizResult />
-        </QuizAppContext.Provider>
+        <QuizResult />
       </>
     );
   }
@@ -122,8 +76,6 @@ function Quiz() {
       </>
     );
   }
-
-  const currentQuestion = questions[currentQuestionIndex];
 
   return (
     <>
@@ -139,7 +91,7 @@ function Quiz() {
             bgcolor: "background.paper",
           }}
         >
-          <Question question={currentQuestion} onAnswer={handleAnswer} />
+          <Question />
         </Box>
       </Container>
     </>
