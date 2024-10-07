@@ -41,7 +41,7 @@ function QuizResult() {
         setTopResults(data);
         const isTop10 =
           data.length < 10 || correctAnswers > data[data.length - 1].score;
-        if (isTop10 && !hasSaveDialogBeenOpened) {
+        if (correctAnswers > 0 && isTop10 && !hasSaveDialogBeenOpened) {
           setOpenSaveDialog(true);
         }
       });
