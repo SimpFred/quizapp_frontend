@@ -1,10 +1,13 @@
 import React from "react";
 import Quiz from "./components/Quiz";
+import { QuizAppProvider } from "./context";
 
 function App() {
   return (
     <div className="App">
-      <Quiz />
+      <QuizAppProvider>
+        <Quiz />
+      </QuizAppProvider>
     </div>
   );
 }
