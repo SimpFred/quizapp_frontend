@@ -23,8 +23,6 @@ This project is the frontend part of an existing backend project. It is a quiz f
 3. Follow the on-screen instructions to participate in quizzes
 
 ## Project Structure
-
-```plaintext
 quiz-frontend/
 ├── public/                 # Public assets
 ├── src/                    # Source files
@@ -38,8 +36,8 @@ quiz-frontend/
 │   ├── App.js              # Main application component
 │   ├── index.js            # Entry point of the application
 │   └── ...                 # Other files
-
-```
+├── package.json            # Project metadata and dependencies
+└── README.md               # Project documentation
 
 ## Contributing
 
