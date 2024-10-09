@@ -12,6 +12,26 @@ import {
 } from "@mui/material";
 import { QuizAppContext } from "../context";
 
+/**
+ * Scoreboard Component
+ *
+ * This component displays the top 10 quiz results in a table format.
+ * It uses Material-UI components for styling and layout. The results are fetched
+ * from the QuizAppContext.
+ *
+ * @component
+ * @example
+ * // To use the Scoreboard component, ensure that it is wrapped within the QuizAppProvider
+ * // and that the QuizAppContext contains the necessary state and functions.
+ * return (
+ *   <QuizAppProvider>
+ *     <Scoreboard />
+ *   </QuizAppProvider>
+ * )
+ *
+ * @returns {JSX.Element} A container with a table displaying the top 10 quiz results.
+ */
+
 const Scoreboard = () => {
   const { topResults } = useContext(QuizAppContext);
   return (
