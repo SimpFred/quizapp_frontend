@@ -18,6 +18,25 @@ const categoryMap = {
   15: "Video Games",
 };
 
+/**
+ * SaveResults Component
+ *
+ * This component displays a dialog for saving quiz results. It allows the user to enter their name
+ * and validates the input before sending the results to the server. The dialog is only shown if the
+ * user's score is in the top 10 for the current quiz setup.
+ *
+ * @component
+ * @example
+ * // To use the SaveResults component, ensure that it is wrapped within the QuizAppProvider
+ * // and that the QuizAppContext contains the necessary state and functions.
+ * return (
+ *   <QuizAppProvider>
+ *     <SaveResults />
+ *   </QuizAppProvider>
+ * )
+ *
+ * @returns {JSX.Element} A dialog for saving quiz results.
+ */
 const SaveResults = () => {
   const {
     quizSetup,
@@ -29,11 +48,16 @@ const SaveResults = () => {
   const [username, setUsername] = useState("");
   const [error, setError] = useState("");
 
+  /**
+   * Validates the username input to ensure it does not contain forbidden SQL keywords,
+   * is alphanumeric, and does not contain more than two words.
+   *
+   * @param {string} name - The username to validate
+   * @returns {string} An error message if validation fails, otherwise an empty string
+   */
   const validateUsername = (name) => {
-    // Sanera strängen för att förhindra SQL-injektioner
     const sanitized = validator.escape(name);
 
-    // Lista över förbjudna SQL-nyckelord
     const forbiddenKeywords = [
       "SELECT",
       "INSERT",
@@ -52,7 +76,6 @@ const SaveResults = () => {
       "JOIN",
     ];
 
-    // Kontrollera om strängen innehåller förbjudna SQL-nyckelord
     const containsForbiddenKeyword = forbiddenKeywords.some((keyword) =>
       new RegExp(`\\b${keyword}\\b`, "i").test(sanitized)
     );
@@ -60,13 +83,11 @@ const SaveResults = () => {
       return "Name contains invalid characters.";
     }
 
-    // Kontrollera om strängen innehåller mer än två ord
     const words = sanitized.trim().split(/\s+/);
     if (words.length > 2) {
       return "Name should not contain more than two words.";
     }
 
-    // Kontrollera att strängen endast innehåller alfanumeriska tecken och mellanslag
     if (!validator.isAlphanumeric(sanitized.replace(/\s/g, ""))) {
       return "Name contains invalid characters.";
     }
@@ -74,6 +95,10 @@ const SaveResults = () => {
     return "";
   };
 
+  /**
+   * Handles the save action by validating the username and sending the quiz results to the server.
+   * If the username is valid, it sends a POST request to save the results.
+   */
   const handleSave = () => {
     const validationError = validateUsername(username);
     if (validationError) {
@@ -82,7 +107,6 @@ const SaveResults = () => {
     }
 
     if (username) {
-      // Spara resultatet om användaren bekräftar
       fetch("http://localhost:8080/api/quiz/results", {
         method: "POST",
         headers: {
@@ -98,11 +122,11 @@ const SaveResults = () => {
       })
         .then((response) => response.json())
         .then((data) => {
-          handleResultSaved(); // Anropa callback-funktionen
-          handleCloseSaveDialog(); // Stäng dialogen
+          handleResultSaved();
+          handleCloseSaveDialog();
         })
         .catch((error) => {
-          handleCloseSaveDialog(); // Försök stänga dialogen även vid fel
+          handleCloseSaveDialog();
         });
     }
   };
@@ -131,7 +155,7 @@ const SaveResults = () => {
           value={username}
           onChange={(e) => {
             setUsername(e.target.value);
-            setError(""); // Rensa felmeddelandet när användaren skriver
+            setError("");
           }}
           error={!!error}
           helperText={error}
