@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Global</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Global</h1>
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2></h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+        
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id="QuizAppContext"><span class="type-signature">(constant) </span>QuizAppContext<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    QuizAppContextThis context provides the state and functions for managing the quiz application.It includes state for questions, answers, quiz setup, and various flags for handlingthe quiz flow.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="context.js.html">context.js</a>, <a href="context.js.html#line10">line 10</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="QuizAppProvider"><span class="type-signature">(constant) </span>QuizAppProvider<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    QuizAppProvider ComponentThis component provides the QuizAppContext to its children. It manages the stateand functions required for the quiz application.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="context.js.html">context.js</a>, <a href="context.js.html#line31">line 31</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>// To use the QuizAppProvider, wrap it around your component tree.return (  &lt;QuizAppProvider>    &lt;YourComponent />  &lt;/QuizAppProvider>)</code></pre>
+
+
+
+        
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="Error"><span class="type-signature"></span>Error<span class="signature">()</span><span class="type-signature"> &rarr; {JSX.Element}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Error ComponentThis component displays an error message retrieved from the QuizAppContext.It uses Material-UI's Container and Typography components to style the error message.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_helperComponents_Error.js.html">components/helperComponents/Error.js</a>, <a href="components_helperComponents_Error.js.html#line23">line 23</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    A container with an error message.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">JSX.Element</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>// To use the Error component, ensure that it is wrapped within the QuizAppProvider// and that the QuizAppContext contains an error message.return (  &lt;QuizAppProvider>    &lt;Error />  &lt;/QuizAppProvider>)</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="Loading"><span class="type-signature"></span>Loading<span class="signature">(props)</span><span class="type-signature"> &rarr; {JSX.Element}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Loading ComponentThis component displays a loading spinner and a customizable loading message.It uses Material-UI's Container, Typography, CircularProgress, and Box componentsto style and position the loading elements.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>props</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The component props
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>loadingText</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    "Loading questions..."
+                
+                </td>
+            
+
+            <td class="description last">The loading message to display</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_helperComponents_Loading.js.html">components/helperComponents/Loading.js</a>, <a href="components_helperComponents_Loading.js.html#line23">line 23</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    A container with a loading spinner and message.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">JSX.Element</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>// To use the Loading component, simply include it in your render method.// You can optionally pass a custom loading message.return (  &lt;Loading loadingText="Fetching data..." />)</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="Question"><span class="type-signature"></span>Question<span class="signature">()</span><span class="type-signature"> &rarr; {JSX.Element}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Question ComponentThis component displays the current quiz question and its possible answers.It uses Material-UI components for styling and layout. The question and answersare fetched from the QuizAppContext. The answers are shuffled and displayed as buttons.When an answer is selected, it is highlighted and the onAnswer function from the context is called.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_Question.js.html">components/Question.js</a>, <a href="components_Question.js.html#line26">line 26</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    A container with the current quiz question and possible answers.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">JSX.Element</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>// To use the Question component, ensure that it is wrapped within the QuizAppProvider// and that the QuizAppContext contains the necessary state and functions.return (  &lt;QuizAppProvider>    &lt;Question />  &lt;/QuizAppProvider>)</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="Quiz"><span class="type-signature"></span>Quiz<span class="signature">()</span><span class="type-signature"> &rarr; {JSX.Element}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Quiz ComponentThis component manages the quiz flow, including fetching questions, displaying the quiz setup,handling errors, and showing the quiz results. It uses the QuizAppContext to manage state.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_Quiz.js.html">components/Quiz.js</a>, <a href="components_Quiz.js.html#line29">line 29</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The quiz component with different states (setup, loading, error, question, result).
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">JSX.Element</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>// To use the Quiz component, ensure that it is wrapped within the QuizAppProvider// and that the QuizAppContext contains the necessary state and functions.return (  &lt;QuizAppProvider>    &lt;Quiz />  &lt;/QuizAppProvider>)</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="QuizResult"><span class="type-signature"></span>QuizResult<span class="signature">()</span><span class="type-signature"> &rarr; {JSX.Element}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    QuizResult ComponentThis component displays the results of the quiz, including the number of correct and incorrect answers,a facit (answer key), and options to restart the quiz or save the results. It also fetches and displaysthe top 10 results for the current quiz setup.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_resultComponents_QuizResult.js.html">components/resultComponents/QuizResult.js</a>, <a href="components_resultComponents_QuizResult.js.html#line37">line 37</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    A container with the quiz results and options.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">JSX.Element</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>// To use the QuizResult component, ensure that it is wrapped within the QuizAppProvider// and that the QuizAppContext contains the necessary state and functions.return (  &lt;QuizAppProvider>    &lt;QuizResult />  &lt;/QuizAppProvider>)</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="QuizSetup"><span class="type-signature"></span>QuizSetup<span class="signature">()</span><span class="type-signature"> &rarr; {JSX.Element}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    QuizSetup ComponentThis component allows the user to set up the quiz by selecting the number of questions,category, and difficulty. It uses Material-UI components for styling and layout.The selected settings are stored in the QuizAppContext.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_QuizSetup.js.html">components/QuizSetup.js</a>, <a href="components_QuizSetup.js.html#line33">line 33</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    A container with form controls to set up the quiz.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">JSX.Element</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>// To use the QuizSetup component, ensure that it is wrapped within the QuizAppProvider// and that the QuizAppContext contains the necessary state and functions.return (  &lt;QuizAppProvider>    &lt;QuizSetup />  &lt;/QuizAppProvider>)</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="Result"><span class="type-signature"></span>Result<span class="signature">()</span><span class="type-signature"> &rarr; {JSX.Element}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Result ComponentThis component displays the results for each question in the quiz.It uses Material-UI's Accordion components to show each question, the correct answer,and the user's answer. Icons are used to indicate whether the user's answer was correct or incorrect.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_resultComponents_Result.js.html">components/resultComponents/Result.js</a>, <a href="components_resultComponents_Result.js.html#line34">line 34</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    A box containing a list of accordions with quiz results.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">JSX.Element</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>// To use the Result component, ensure that it is wrapped within the QuizAppProvider// and that the QuizAppContext contains the necessary state and functions.return (  &lt;QuizAppProvider>    &lt;Result />  &lt;/QuizAppProvider>)</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="SaveResults"><span class="type-signature"></span>SaveResults<span class="signature">()</span><span class="type-signature"> &rarr; {JSX.Element}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    SaveResults ComponentThis component displays a dialog for saving quiz results. It allows the user to enter their nameand validates the input before sending the results to the server. The dialog is only shown if theuser's score is in the top 10 for the current quiz setup.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_resultComponents_SaveResults.js.html">components/resultComponents/SaveResults.js</a>, <a href="components_resultComponents_SaveResults.js.html#line40">line 40</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    A dialog for saving quiz results.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">JSX.Element</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>// To use the SaveResults component, ensure that it is wrapped within the QuizAppProvider// and that the QuizAppContext contains the necessary state and functions.return (  &lt;QuizAppProvider>    &lt;SaveResults />  &lt;/QuizAppProvider>)</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="Scoreboard"><span class="type-signature"></span>Scoreboard<span class="signature">()</span><span class="type-signature"> &rarr; {JSX.Element}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Scoreboard ComponentThis component displays the top 10 quiz results in a table format.It uses Material-UI components for styling and layout. The results are fetchedfrom the QuizAppContext.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_Scoreboard.js.html">components/Scoreboard.js</a>, <a href="components_Scoreboard.js.html#line35">line 35</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    A container with a table displaying the top 10 quiz results.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">JSX.Element</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>// To use the Scoreboard component, ensure that it is wrapped within the QuizAppProvider// and that the QuizAppContext contains the necessary state and functions.return (  &lt;QuizAppProvider>    &lt;Scoreboard />  &lt;/QuizAppProvider>)</code></pre>
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Error">Error</a></li><li><a href="global.html#Loading">Loading</a></li><li><a href="global.html#Question">Question</a></li><li><a href="global.html#Quiz">Quiz</a></li><li><a href="global.html#QuizAppContext">QuizAppContext</a></li><li><a href="global.html#QuizAppProvider">QuizAppProvider</a></li><li><a href="global.html#QuizResult">QuizResult</a></li><li><a href="global.html#QuizSetup">QuizSetup</a></li><li><a href="global.html#Result">Result</a></li><li><a href="global.html#SaveResults">SaveResults</a></li><li><a href="global.html#Scoreboard">Scoreboard</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Wed Oct 09 2024 14:26:14 GMT+0200 (centraleuropeisk sommartid)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

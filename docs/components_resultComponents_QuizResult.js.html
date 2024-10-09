@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/resultComponents/QuizResult.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/resultComponents/QuizResult.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useContext, useEffect } from "react";
+import {
+  Container,
+  Box,
+  Button,
+  Typography,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+} from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Result from "./Result";
+import Loading from "../helperComponents/Loading";
+import SaveResults from "./SaveResults";
+import Scoreboard from "../Scoreboard";
+import { QuizAppContext } from "../../context";
+
+/**
+ * QuizResult Component
+ *
+ * This component displays the results of the quiz, including the number of correct and incorrect answers,
+ * a facit (answer key), and options to restart the quiz or save the results. It also fetches and displays
+ * the top 10 results for the current quiz setup.
+ *
+ * @component
+ * @example
+ * // To use the QuizResult component, ensure that it is wrapped within the QuizAppProvider
+ * // and that the QuizAppContext contains the necessary state and functions.
+ * return (
+ *   &lt;QuizAppProvider>
+ *     &lt;QuizResult />
+ *   &lt;/QuizAppProvider>
+ * )
+ *
+ * @returns {JSX.Element} A container with the quiz results and options.
+ */
+function QuizResult() {
+  const {
+    correctAnswers,
+    incorrectAnswers,
+    isLoading,
+    quizSetup,
+    updateScoreboard,
+    setTopResults,
+    setUpdateScoreboard,
+    setOpenSaveDialog,
+    hasSaveDialogBeenOpened,
+  } = useContext(QuizAppContext);
+
+  /**
+   * Fetches the top 10 results for the current quiz setup from the server.
+   * If the user's score is in the top 10 and the save dialog has not been opened,
+   * it opens the save dialog.
+   */
+  const fetchTopResults = () => {
+    fetch(
+      `http://localhost:8080/api/quiz/top10?category=${quizSetup.category}&amp;numberOfQuestions=${quizSetup.numQuestions}&amp;difficulty=${quizSetup.difficulty}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        if (!data) {
+          return;
+        }
+        setTopResults(data);
+        const isTop10 =
+          data.length &lt; 10 || correctAnswers > data[data.length - 1].score;
+        if (correctAnswers > 0 &amp;&amp; isTop10 &amp;&amp; !hasSaveDialogBeenOpened) {
+          setOpenSaveDialog(true);
+        }
+      });
+  };
+
+  /**
+   * useEffect hook to fetch the top results when the component mounts
+   * or when the loading state changes.
+   */
+  useEffect(() => {
+    if (!isLoading) {
+      fetchTopResults();
+    }
+  }, [isLoading, correctAnswers]);
+
+  /**
+   * useEffect hook to fetch the top results when the scoreboard needs to be updated.
+   * This is triggered when the user saves their result.
+   */
+  useEffect(() => {
+    if (updateScoreboard) {
+      fetchTopResults();
+      setUpdateScoreboard(false);
+    }
+  }, [updateScoreboard]);
+
+  return (
+    &lt;Container maxWidth="sm">
+      &lt;Box
+        sx={{
+          mt: 4,
+          mb: 4,
+          p: 3,
+          boxShadow: 3,
+          borderRadius: 2,
+          bgcolor: "background.paper",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        &lt;Typography variant="h4" gutterBottom>
+          Quiz Results
+        &lt;/Typography>
+        {isLoading ? (
+          &lt;Loading loadingText="Loading results..." />
+        ) : (
+          &lt;>
+            &lt;Typography variant="body1" gutterBottom>
+              Correct Answers: {correctAnswers}
+            &lt;/Typography>
+            &lt;Typography variant="body1" gutterBottom>
+              Incorrect Answers: {incorrectAnswers}
+            &lt;/Typography>
+            &lt;Accordion>
+              &lt;AccordionSummary
+                expandIcon={&lt;ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+              >
+                &lt;Typography variant="h6">Facit&lt;/Typography>
+              &lt;/AccordionSummary>
+              &lt;AccordionDetails>
+                &lt;Result />
+              &lt;/AccordionDetails>
+            &lt;/Accordion>
+            &lt;Button
+              variant="contained"
+              color="primary"
+              fullWidth
+              onClick={() => window.location.reload()}
+              sx={{ mt: 3 }}
+            >
+              Restart Quiz
+            &lt;/Button>
+            &lt;SaveResults />
+          &lt;/>
+        )}
+      &lt;/Box>
+      &lt;Scoreboard />
+    &lt;/Container>
+  );
+}
+
+export default QuizResult;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Error">Error</a></li><li><a href="global.html#Loading">Loading</a></li><li><a href="global.html#Question">Question</a></li><li><a href="global.html#Quiz">Quiz</a></li><li><a href="global.html#QuizAppContext">QuizAppContext</a></li><li><a href="global.html#QuizAppProvider">QuizAppProvider</a></li><li><a href="global.html#QuizResult">QuizResult</a></li><li><a href="global.html#QuizSetup">QuizSetup</a></li><li><a href="global.html#Result">Result</a></li><li><a href="global.html#SaveResults">SaveResults</a></li><li><a href="global.html#Scoreboard">Scoreboard</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Wed Oct 09 2024 14:26:14 GMT+0200 (centraleuropeisk sommartid)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

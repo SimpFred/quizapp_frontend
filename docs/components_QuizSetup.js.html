@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/QuizSetup.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/QuizSetup.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useContext, useState } from "react";
+import {
+  Container,
+  Typography,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Button,
+  Box,
+} from "@mui/material";
+import { QuizAppContext } from "../context";
+
+/**
+ * QuizSetup Component
+ *
+ * This component allows the user to set up the quiz by selecting the number of questions,
+ * category, and difficulty. It uses Material-UI components for styling and layout.
+ * The selected settings are stored in the QuizAppContext.
+ *
+ * @component
+ * @example
+ * // To use the QuizSetup component, ensure that it is wrapped within the QuizAppProvider
+ * // and that the QuizAppContext contains the necessary state and functions.
+ * return (
+ *   &lt;QuizAppProvider>
+ *     &lt;QuizSetup />
+ *   &lt;/QuizAppProvider>
+ * )
+ *
+ * @returns {JSX.Element} A container with form controls to set up the quiz.
+ */
+function QuizSetup() {
+  const { setQuizSetup } = useContext(QuizAppContext);
+  const [numQuestions, setNumQuestions] = useState(10);
+  const [category, setCategory] = useState(12);
+  const [difficulty, setDifficulty] = useState("easy");
+
+  /**
+   * Handles the start quiz action by setting the quiz setup in the context.
+   */
+  const handleStartQuiz = () => {
+    setQuizSetup({ numQuestions, category, difficulty });
+  };
+
+  return (
+    &lt;Container maxWidth="sm">
+      &lt;Box
+        sx={{
+          mt: 4,
+          mb: 4,
+          p: 3,
+          boxShadow: 3,
+          borderRadius: 2,
+          bgcolor: "background.paper",
+        }}
+      >
+        &lt;Typography variant="h4" component="h1" gutterBottom>
+          Setup Your Quiz
+        &lt;/Typography>
+        &lt;FormControl fullWidth margin="normal">
+          &lt;InputLabel id="num-questions-label">Number of Questions&lt;/InputLabel>
+          &lt;Select
+            labelId="num-questions-label"
+            value={numQuestions}
+            onChange={(e) => setNumQuestions(e.target.value)}
+            label="Number of Questions"
+          >
+            &lt;MenuItem value={10}>10&lt;/MenuItem>
+            &lt;MenuItem value={20}>20&lt;/MenuItem>
+            &lt;MenuItem value={30}>30&lt;/MenuItem>
+          &lt;/Select>
+        &lt;/FormControl>
+        &lt;FormControl fullWidth margin="normal">
+          &lt;InputLabel id="category-label">Category&lt;/InputLabel>
+          &lt;Select
+            labelId="category-label"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            label="Category"
+          >
+            &lt;MenuItem value={12}>Music&lt;/MenuItem>
+            &lt;MenuItem value={11}>Film&lt;/MenuItem>
+            &lt;MenuItem value={21}>Sport&lt;/MenuItem>
+            &lt;MenuItem value={15}>Video Games&lt;/MenuItem>
+          &lt;/Select>
+        &lt;/FormControl>
+        &lt;FormControl fullWidth margin="normal">
+          &lt;InputLabel id="difficulty-label">Difficulty&lt;/InputLabel>
+          &lt;Select
+            labelId="difficulty-label"
+            value={difficulty}
+            onChange={(e) => setDifficulty(e.target.value)}
+            label="Difficulty"
+          >
+            &lt;MenuItem value="easy">Easy&lt;/MenuItem>
+            &lt;MenuItem value="hard">Hard&lt;/MenuItem>
+          &lt;/Select>
+        &lt;/FormControl>
+        &lt;Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          onClick={handleStartQuiz}
+          sx={{ mt: 3 }}
+        >
+          Start Quiz
+        &lt;/Button>
+      &lt;/Box>
+    &lt;/Container>
+  );
+}
+
+export default QuizSetup;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Error">Error</a></li><li><a href="global.html#Loading">Loading</a></li><li><a href="global.html#Question">Question</a></li><li><a href="global.html#Quiz">Quiz</a></li><li><a href="global.html#QuizAppContext">QuizAppContext</a></li><li><a href="global.html#QuizAppProvider">QuizAppProvider</a></li><li><a href="global.html#QuizResult">QuizResult</a></li><li><a href="global.html#QuizSetup">QuizSetup</a></li><li><a href="global.html#Result">Result</a></li><li><a href="global.html#SaveResults">SaveResults</a></li><li><a href="global.html#Scoreboard">Scoreboard</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Wed Oct 09 2024 14:26:14 GMT+0200 (centraleuropeisk sommartid)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

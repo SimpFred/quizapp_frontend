@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/resultComponents/SaveResults.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/resultComponents/SaveResults.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useContext, useState } from "react";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  TextField,
+  Typography,
+} from "@mui/material";
+import validator from "validator";
+import { QuizAppContext } from "../../context";
+
+const categoryMap = {
+  11: "Film",
+  12: "Music",
+  21: "Sport",
+  15: "Video Games",
+};
+
+/**
+ * SaveResults Component
+ *
+ * This component displays a dialog for saving quiz results. It allows the user to enter their name
+ * and validates the input before sending the results to the server. The dialog is only shown if the
+ * user's score is in the top 10 for the current quiz setup.
+ *
+ * @component
+ * @example
+ * // To use the SaveResults component, ensure that it is wrapped within the QuizAppProvider
+ * // and that the QuizAppContext contains the necessary state and functions.
+ * return (
+ *   &lt;QuizAppProvider>
+ *     &lt;SaveResults />
+ *   &lt;/QuizAppProvider>
+ * )
+ *
+ * @returns {JSX.Element} A dialog for saving quiz results.
+ */
+const SaveResults = () => {
+  const {
+    quizSetup,
+    correctAnswers,
+    openSaveDialog,
+    handleCloseSaveDialog,
+    handleResultSaved,
+  } = useContext(QuizAppContext);
+  const [username, setUsername] = useState("");
+  const [error, setError] = useState("");
+
+  /**
+   * Validates the username input to ensure it does not contain forbidden SQL keywords,
+   * is alphanumeric, and does not contain more than two words.
+   *
+   * @param {string} name - The username to validate
+   * @returns {string} An error message if validation fails, otherwise an empty string
+   */
+  const validateUsername = (name) => {
+    const sanitized = validator.escape(name);
+
+    const forbiddenKeywords = [
+      "SELECT",
+      "INSERT",
+      "UPDATE",
+      "DELETE",
+      "DROP",
+      "ALTER",
+      "CREATE",
+      "TRUNCATE",
+      "EXEC",
+      "UNION",
+      "FETCH",
+      "DECLARE",
+      "SET",
+      "FROM",
+      "JOIN",
+    ];
+
+    const containsForbiddenKeyword = forbiddenKeywords.some((keyword) =>
+      new RegExp(`\\b${keyword}\\b`, "i").test(sanitized)
+    );
+    if (containsForbiddenKeyword) {
+      return "Name contains invalid characters.";
+    }
+
+    const words = sanitized.trim().split(/\s+/);
+    if (words.length > 2) {
+      return "Name should not contain more than two words.";
+    }
+
+    if (!validator.isAlphanumeric(sanitized.replace(/\s/g, ""))) {
+      return "Name contains invalid characters.";
+    }
+
+    return "";
+  };
+
+  /**
+   * Handles the save action by validating the username and sending the quiz results to the server.
+   * If the username is valid, it sends a POST request to save the results.
+   */
+  const handleSave = () => {
+    const validationError = validateUsername(username);
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
+
+    if (username) {
+      fetch("http://localhost:8080/api/quiz/results", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: username,
+          score: correctAnswers,
+          category: quizSetup.category,
+          numberOfQuestions: quizSetup.numQuestions,
+          difficulty: quizSetup.difficulty,
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          handleResultSaved();
+          handleCloseSaveDialog();
+        })
+        .catch((error) => {
+          handleCloseSaveDialog();
+        });
+    }
+  };
+
+  return (
+    &lt;Dialog open={openSaveDialog} onClose={handleCloseSaveDialog}>
+      &lt;DialogTitle sx={{ textAlign: "center" }}>
+        You are in the top 10!!!
+        &lt;Typography variant="body2" gutterBottom>
+          {" "}
+          In the category {categoryMap[quizSetup.category]} with{" "}
+          {quizSetup.numQuestions} questions at {quizSetup.difficulty}{" "}
+          difficulty!
+        &lt;/Typography>
+      &lt;/DialogTitle>
+      &lt;DialogContent>
+        &lt;Typography variant="subtitle1" gutterBottom>
+          Please enter your name if you want to save your result.
+        &lt;/Typography>
+        &lt;TextField
+          autoFocus
+          margin="dense"
+          label="Enter your name"
+          type="text"
+          fullWidth
+          value={username}
+          onChange={(e) => {
+            setUsername(e.target.value);
+            setError("");
+          }}
+          error={!!error}
+          helperText={error}
+        />
+      &lt;/DialogContent>
+      &lt;DialogActions>
+        &lt;Button onClick={handleCloseSaveDialog} color="primary">
+          Cancel
+        &lt;/Button>
+        &lt;Button onClick={handleSave} color="primary">
+          Save
+        &lt;/Button>
+      &lt;/DialogActions>
+    &lt;/Dialog>
+  );
+};
+
+export default SaveResults;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Error">Error</a></li><li><a href="global.html#Loading">Loading</a></li><li><a href="global.html#Question">Question</a></li><li><a href="global.html#Quiz">Quiz</a></li><li><a href="global.html#QuizAppContext">QuizAppContext</a></li><li><a href="global.html#QuizAppProvider">QuizAppProvider</a></li><li><a href="global.html#QuizResult">QuizResult</a></li><li><a href="global.html#QuizSetup">QuizSetup</a></li><li><a href="global.html#Result">Result</a></li><li><a href="global.html#SaveResults">SaveResults</a></li><li><a href="global.html#Scoreboard">Scoreboard</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Wed Oct 09 2024 14:26:14 GMT+0200 (centraleuropeisk sommartid)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

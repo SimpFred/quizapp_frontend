@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: context.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: context.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { createContext, useState } from "react";
+
+/**
+ * QuizAppContext
+ *
+ * This context provides the state and functions for managing the quiz application.
+ * It includes state for questions, answers, quiz setup, and various flags for handling
+ * the quiz flow.
+ */
+export const QuizAppContext = createContext();
+
+/**
+ * QuizAppProvider Component
+ *
+ * This component provides the QuizAppContext to its children. It manages the state
+ * and functions required for the quiz application.
+ *
+ * @component
+ * @example
+ * // To use the QuizAppProvider, wrap it around your component tree.
+ * return (
+ *   &lt;QuizAppProvider>
+ *     &lt;YourComponent />
+ *   &lt;/QuizAppProvider>
+ * )
+ *
+ * @param {Object} props - The props for the component.
+ * @param {React.ReactNode} props.children - The child components that will have access to the context.
+ * @returns {JSX.Element} The QuizAppProvider component with context values.
+ */
+export const QuizAppProvider = ({ children }) => {
+  const [questions, setQuestions] = useState([]);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [answers, setAnswers] = useState([]);
+  const [isFinished, setIsFinished] = useState(false);
+  const [error, setError] = useState(null);
+  const [hasFetched, setHasFetched] = useState(false);
+  const [correctAnswers, setCorrectAnswers] = useState(0);
+  const [incorrectAnswers, setIncorrectAnswers] = useState(0);
+  const [quizSetup, setQuizSetup] = useState(null);
+  const [openSaveDialog, setOpenSaveDialog] = useState(false);
+  const [topResults, setTopResults] = useState([]);
+  const [updateScoreboard, setUpdateScoreboard] = useState(false);
+  const [hasSaveDialogBeenOpened, setHasSaveDialogBeenOpened] = useState(false);
+
+  /**
+   * Handles the user's answer to a question.
+   * Updates the correct and incorrect answers count, and moves to the next question.
+   *
+   * @param {string} answer - The user's selected answer.
+   */
+  const onAnswer = (answer) => {
+    const currentQuestion = questions[currentQuestionIndex];
+    if (answer === currentQuestion.correct_answer) {
+      setCorrectAnswers(correctAnswers + 1);
+    } else {
+      setIncorrectAnswers(incorrectAnswers + 1);
+    }
+
+    setAnswers([...answers, answer]);
+    const nextIndex = currentQuestionIndex + 1;
+    if (nextIndex &lt; questions.length) {
+      setCurrentQuestionIndex(nextIndex);
+    } else {
+      setIsFinished(true);
+    }
+  };
+
+  /**
+   * Handles the start of the quiz by setting up the quiz configuration.
+   *
+   * @param {Object} setup - The quiz setup configuration.
+   */
+  const handleStartQuiz = (setup) => {
+    setQuizSetup(setup);
+  };
+
+  /**
+   * Closes the save dialog.
+   */
+  const handleCloseSaveDialog = () => {
+    setOpenSaveDialog(false);
+  };
+
+  /**
+   * Handles the event when the quiz result is saved.
+   * Updates the state to reflect that the result has been saved.
+   */
+  const handleResultSaved = () => {
+    setHasSaveDialogBeenOpened(true);
+    setUpdateScoreboard(true);
+  };
+
+  const currentQuestion = questions[currentQuestionIndex];
+
+  return (
+    &lt;QuizAppContext.Provider
+      value={{
+        questions,
+        setQuestions,
+        currentQuestionIndex,
+        setCurrentQuestionIndex,
+        answers,
+        setAnswers,
+        isFinished,
+        setIsFinished,
+        error,
+        setError,
+        hasFetched,
+        setHasFetched,
+        correctAnswers,
+        setCorrectAnswers,
+        incorrectAnswers,
+        setIncorrectAnswers,
+        quizSetup,
+        setQuizSetup,
+        onAnswer,
+        handleStartQuiz,
+        currentQuestion,
+        openSaveDialog,
+        setOpenSaveDialog,
+        topResults,
+        setTopResults,
+        updateScoreboard,
+        setUpdateScoreboard,
+        hasSaveDialogBeenOpened,
+        setHasSaveDialogBeenOpened,
+        handleCloseSaveDialog,
+        handleResultSaved,
+      }}
+    >
+      {children}
+    &lt;/QuizAppContext.Provider>
+  );
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Error">Error</a></li><li><a href="global.html#Loading">Loading</a></li><li><a href="global.html#Question">Question</a></li><li><a href="global.html#Quiz">Quiz</a></li><li><a href="global.html#QuizAppContext">QuizAppContext</a></li><li><a href="global.html#QuizAppProvider">QuizAppProvider</a></li><li><a href="global.html#QuizResult">QuizResult</a></li><li><a href="global.html#QuizSetup">QuizSetup</a></li><li><a href="global.html#Result">Result</a></li><li><a href="global.html#SaveResults">SaveResults</a></li><li><a href="global.html#Scoreboard">Scoreboard</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Wed Oct 09 2024 14:26:14 GMT+0200 (centraleuropeisk sommartid)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
