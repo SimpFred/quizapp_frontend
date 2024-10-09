@@ -12,6 +12,25 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import { QuizAppContext } from "../../context";
 import parse from "html-react-parser";
 
+/**
+ * Result Component
+ *
+ * This component displays the results for each question in the quiz.
+ * It uses Material-UI's Accordion components to show each question, the correct answer,
+ * and the user's answer. Icons are used to indicate whether the user's answer was correct or incorrect.
+ *
+ * @component
+ * @example
+ * // To use the Result component, ensure that it is wrapped within the QuizAppProvider
+ * // and that the QuizAppContext contains the necessary state and functions.
+ * return (
+ *   <QuizAppProvider>
+ *     <Result />
+ *   </QuizAppProvider>
+ * )
+ *
+ * @returns {JSX.Element} A box containing a list of accordions with quiz results.
+ */
 function Result() {
   const { answers, questions } = useContext(QuizAppContext);
   return (
