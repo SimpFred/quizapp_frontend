@@ -8,6 +8,24 @@ import Error from "../components/helperComponents/Error";
 import QuizResult from "../components/resultComponents/QuizResult";
 import { QuizAppContext } from "../context";
 
+/**
+ * Quiz Component
+ *
+ * This component manages the quiz flow, including fetching questions, displaying the quiz setup,
+ * handling errors, and showing the quiz results. It uses the QuizAppContext to manage state.
+ *
+ * @component
+ * @example
+ * // To use the Quiz component, ensure that it is wrapped within the QuizAppProvider
+ * // and that the QuizAppContext contains the necessary state and functions.
+ * return (
+ *   <QuizAppProvider>
+ *     <Quiz />
+ *   </QuizAppProvider>
+ * )
+ *
+ * @returns {JSX.Element} The quiz component with different states (setup, loading, error, question, result).
+ */
 function Quiz() {
   const {
     questions,
@@ -20,6 +38,10 @@ function Quiz() {
     quizSetup,
   } = useContext(QuizAppContext);
 
+  /**
+   * useEffect hook to fetch quiz questions when the quiz setup changes
+   * and questions have not been fetched yet.
+   */
   useEffect(() => {
     if (quizSetup && !hasFetched) {
       fetch(
@@ -41,6 +63,7 @@ function Quiz() {
     }
   }, [quizSetup, hasFetched]);
 
+  // If quiz setup is not defined, show the quiz setup component
   if (!quizSetup) {
     return (
       <>
@@ -50,6 +73,7 @@ function Quiz() {
     );
   }
 
+  // If there is an error, show the error component
   if (error) {
     return (
       <>
@@ -59,6 +83,7 @@ function Quiz() {
     );
   }
 
+  // If the quiz is finished, show the quiz result component
   if (isFinished) {
     return (
       <>
@@ -68,6 +93,7 @@ function Quiz() {
     );
   }
 
+  // If questions are still being fetched, show the loading component
   if (questions.length === 0) {
     return (
       <>
@@ -77,6 +103,7 @@ function Quiz() {
     );
   }
 
+  // Show the current question
   return (
     <>
       <Header />
