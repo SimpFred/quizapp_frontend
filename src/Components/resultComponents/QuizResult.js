@@ -15,6 +15,25 @@ import SaveResults from "./SaveResults";
 import Scoreboard from "../Scoreboard";
 import { QuizAppContext } from "../../context";
 
+/**
+ * QuizResult Component
+ *
+ * This component displays the results of the quiz, including the number of correct and incorrect answers,
+ * a facit (answer key), and options to restart the quiz or save the results. It also fetches and displays
+ * the top 10 results for the current quiz setup.
+ *
+ * @component
+ * @example
+ * // To use the QuizResult component, ensure that it is wrapped within the QuizAppProvider
+ * // and that the QuizAppContext contains the necessary state and functions.
+ * return (
+ *   <QuizAppProvider>
+ *     <QuizResult />
+ *   </QuizAppProvider>
+ * )
+ *
+ * @returns {JSX.Element} A container with the quiz results and options.
+ */
 function QuizResult() {
   const {
     correctAnswers,
@@ -28,6 +47,11 @@ function QuizResult() {
     hasSaveDialogBeenOpened,
   } = useContext(QuizAppContext);
 
+  /**
+   * Fetches the top 10 results for the current quiz setup from the server.
+   * If the user's score is in the top 10 and the save dialog has not been opened,
+   * it opens the save dialog.
+   */
   const fetchTopResults = () => {
     fetch(
       `http://localhost:8080/api/quiz/top10?category=${quizSetup.category}&numberOfQuestions=${quizSetup.numQuestions}&difficulty=${quizSetup.difficulty}`
@@ -46,12 +70,20 @@ function QuizResult() {
       });
   };
 
+  /**
+   * useEffect hook to fetch the top results when the component mounts
+   * or when the loading state changes.
+   */
   useEffect(() => {
     if (!isLoading) {
       fetchTopResults();
     }
   }, [isLoading, correctAnswers]);
 
+  /**
+   * useEffect hook to fetch the top results when the scoreboard needs to be updated.
+   * This is triggered when the user saves their result.
+   */
   useEffect(() => {
     if (updateScoreboard) {
       fetchTopResults();
