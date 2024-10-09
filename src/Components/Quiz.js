@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { Container, Box } from "@mui/material";
 import Question from "../components/Question";
 import QuizSetup from "../components/QuizSetup";
