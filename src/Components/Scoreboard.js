@@ -1,9 +1,21 @@
-import React from 'react';
-import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import React, { useContext } from "react";
+import {
+  Box,
+  Typography,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from "@mui/material";
+import { QuizAppContext } from "../context";
 
-const Scoreboard = ({ topResults }) => {
+const Scoreboard = () => {
+  const { topResults } = useContext(QuizAppContext);
   return (
-    <Box sx={{ mt: 4, width: '100%' }}>
+    <Box sx={{ mt: 4, width: "100%" }}>
       <Typography variant="h5" gutterBottom>
         Top 10 Results
       </Typography>
