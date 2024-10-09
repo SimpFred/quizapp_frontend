@@ -18,8 +18,14 @@ const categoryMap = {
   15: "Video Games",
 };
 
-const SaveResults = ({ correctAnswers, open, onClose, onResultSaved }) => {
-  const { quizSetup } = useContext(QuizAppContext);
+const SaveResults = () => {
+  const {
+    quizSetup,
+    correctAnswers,
+    openSaveDialog,
+    handleCloseSaveDialog,
+    handleResultSaved,
+  } = useContext(QuizAppContext);
   const [username, setUsername] = useState("");
   const [error, setError] = useState("");
 
@@ -92,17 +98,17 @@ const SaveResults = ({ correctAnswers, open, onClose, onResultSaved }) => {
       })
         .then((response) => response.json())
         .then((data) => {
-          onResultSaved(); // Anropa callback-funktionen
-          onClose(); // Stäng dialogen
+          handleResultSaved(); // Anropa callback-funktionen
+          handleCloseSaveDialog(); // Stäng dialogen
         })
         .catch((error) => {
-          onClose(); // Försök stänga dialogen även vid fel
+          handleCloseSaveDialog(); // Försök stänga dialogen även vid fel
         });
     }
   };
 
   return (
-    <Dialog open={open} onClose={onClose}>
+    <Dialog open={openSaveDialog} onClose={handleCloseSaveDialog}>
       <DialogTitle sx={{ textAlign: "center" }}>
         You are in the top 10!!!
         <Typography variant="body2" gutterBottom>
@@ -132,7 +138,7 @@ const SaveResults = ({ correctAnswers, open, onClose, onResultSaved }) => {
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} color="primary">
+        <Button onClick={handleCloseSaveDialog} color="primary">
           Cancel
         </Button>
         <Button onClick={handleSave} color="primary">
