@@ -11,12 +11,34 @@ import {
 } from "@mui/material";
 import { QuizAppContext } from "../context";
 
+/**
+ * QuizSetup Component
+ *
+ * This component allows the user to set up the quiz by selecting the number of questions,
+ * category, and difficulty. It uses Material-UI components for styling and layout.
+ * The selected settings are stored in the QuizAppContext.
+ *
+ * @component
+ * @example
+ * // To use the QuizSetup component, ensure that it is wrapped within the QuizAppProvider
+ * // and that the QuizAppContext contains the necessary state and functions.
+ * return (
+ *   <QuizAppProvider>
+ *     <QuizSetup />
+ *   </QuizAppProvider>
+ * )
+ *
+ * @returns {JSX.Element} A container with form controls to set up the quiz.
+ */
 function QuizSetup() {
   const { setQuizSetup } = useContext(QuizAppContext);
   const [numQuestions, setNumQuestions] = useState(10);
   const [category, setCategory] = useState(12);
   const [difficulty, setDifficulty] = useState("easy");
 
+  /**
+   * Handles the start quiz action by setting the quiz setup in the context.
+   */
   const handleStartQuiz = () => {
     setQuizSetup({ numQuestions, category, difficulty });
   };
