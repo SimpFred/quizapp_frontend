@@ -12,6 +12,10 @@ export const QuizAppProvider = ({ children }) => {
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [incorrectAnswers, setIncorrectAnswers] = useState(0);
   const [quizSetup, setQuizSetup] = useState(null);
+  const [openSaveDialog, setOpenSaveDialog] = useState(false);
+  const [topResults, setTopResults] = useState([]);
+  const [updateScoreboard, setUpdateScoreboard] = useState(false);
+  const [hasSaveDialogBeenOpened, setHasSaveDialogBeenOpened] = useState(false);
 
   const onAnswer = (answer) => {
     const currentQuestion = questions[currentQuestionIndex];
@@ -32,6 +36,15 @@ export const QuizAppProvider = ({ children }) => {
 
   const handleStartQuiz = (setup) => {
     setQuizSetup(setup);
+  };
+
+  const handleCloseSaveDialog = () => {
+    setOpenSaveDialog(false);
+  };
+
+  const handleResultSaved = () => {
+    setHasSaveDialogBeenOpened(true);
+    setUpdateScoreboard(true);
   };
 
   const currentQuestion = questions[currentQuestionIndex];
@@ -60,6 +73,16 @@ export const QuizAppProvider = ({ children }) => {
         onAnswer,
         handleStartQuiz,
         currentQuestion,
+        openSaveDialog,
+        setOpenSaveDialog,
+        topResults,
+        setTopResults,
+        updateScoreboard,
+        setUpdateScoreboard,
+        hasSaveDialogBeenOpened,
+        setHasSaveDialogBeenOpened,
+        handleCloseSaveDialog,
+        handleResultSaved,
       }}
     >
       {children}
