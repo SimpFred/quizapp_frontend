@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   Container,
   Box,
@@ -17,17 +17,16 @@ import { QuizAppContext } from "../../context";
 
 function QuizResult() {
   const {
-    answers,
-    questions,
     correctAnswers,
     incorrectAnswers,
     isLoading,
     quizSetup,
+    updateScoreboard,
+    setTopResults,
+    setUpdateScoreboard,
+    setOpenSaveDialog,
+    hasSaveDialogBeenOpened,
   } = useContext(QuizAppContext);
-  const [openSaveDialog, setOpenSaveDialog] = useState(false);
-  const [topResults, setTopResults] = useState([]);
-  const [updateScoreboard, setUpdateScoreboard] = useState(false);
-  const [hasSaveDialogBeenOpened, setHasSaveDialogBeenOpened] = useState(false);
 
   const fetchTopResults = () => {
     fetch(
@@ -59,15 +58,6 @@ function QuizResult() {
       setUpdateScoreboard(false);
     }
   }, [updateScoreboard]);
-
-  const handleCloseSaveDialog = () => {
-    setOpenSaveDialog(false);
-  };
-
-  const handleResultSaved = () => {
-    setHasSaveDialogBeenOpened(true);
-    setUpdateScoreboard(true);
-  };
 
   return (
     <Container maxWidth="sm">
@@ -106,12 +96,7 @@ function QuizResult() {
                 <Typography variant="h6">Facit</Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <Result
-                  answers={answers}
-                  questions={questions}
-                  correctAnswers={correctAnswers}
-                  incorrectAnswers={incorrectAnswers}
-                />
+                <Result />
               </AccordionDetails>
             </Accordion>
             <Button
@@ -123,16 +108,11 @@ function QuizResult() {
             >
               Restart Quiz
             </Button>
-            <SaveResults
-              correctAnswers={correctAnswers}
-              open={openSaveDialog}
-              onClose={handleCloseSaveDialog}
-              onResultSaved={handleResultSaved}
-            />
+            <SaveResults />
           </>
         )}
       </Box>
-      <Scoreboard topResults={topResults} />
+      <Scoreboard />
     </Container>
   );
 }
